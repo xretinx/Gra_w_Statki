@@ -140,10 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Gra_w_Statki.cpp" />
-    <ClCompile Include="nowaKlasa.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="nowaKlasa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
