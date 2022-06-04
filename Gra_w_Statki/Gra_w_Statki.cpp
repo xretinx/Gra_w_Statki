@@ -8,3 +8,4 @@ int main()
     std::cout << "Hello World!\n";
 }
 //test czy dziala
+//visual studio 2019
