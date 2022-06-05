@@ -1,8 +1,8 @@
 #include "Statki.h"
-
+//cos nowego
 Statki::Statki(int size)
 {
-	if (this->horizontalDirection) {
+	if (this->horizontalDirection) { 
 		this->ship.setSize(sf::Vector2f(size * 47.5, 47.5));
 	}
 	else {
