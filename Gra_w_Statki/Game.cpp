@@ -1,4 +1,5 @@
 //to jest branch logika_gry
+//cos tu jest
 #include "Game.h"
 #include <iostream>
 void Game::initializerVariables()
