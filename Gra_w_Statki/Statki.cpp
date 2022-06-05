@@ -1,5 +1,4 @@
 #include "Statki.h"
-//cos nowego
 Statki::Statki(int size)
 {
 	if (this->horizontalDirection) { 
@@ -22,22 +21,22 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference,
 			float x = mousePos.x - mousePosReference.x;
 			float y = mousePos.y - mousePosReference.y;
 			dragging = true;
-			if (x >= 47.5 || x <= -47.5 || y >= 47.5 || y <= -47.5) {
-				if (x >= 47.5 || x <= -47.5) {
-					if (x >= 47.5) {
-						mousePosReference.x = mousePos.x - (x-47.5);
+			if (x >= 35 || x <= -35 || y >= 35 || y <= -35) {
+				if (x >= 35 || x <= -35) {
+					if (x >= 35) {
+						mousePosReference.x += 47.5;
 						this->ship.move(47.5, 0);
 					} else {
-						mousePosReference.x = mousePos.x + (47.5 + x);
+						mousePosReference.x -= 47.5;
 						this->ship.move(-47.5, 0);
 					}
 				}
 				else {
-					if (y >= 47.5) {
-						mousePosReference.y = mousePos.y - (y - 47.5);
+					if (y >= 35) {
+						mousePosReference.y += 47.5;
 						this->ship.move(0, 47.5);
 					} else {
-						mousePosReference.y = mousePos.y + (47.5 + y);
+						mousePosReference.y -= 47.5;
 						this->ship.move(0, -47.5);
 					}
 				}
