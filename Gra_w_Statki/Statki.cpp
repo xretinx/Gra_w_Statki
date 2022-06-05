@@ -24,20 +24,33 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference,
 			if (x >= 35 || x <= -35 || y >= 35 || y <= -35) {
 				if (x >= 35 || x <= -35) {
 					if (x >= 35) {
-						mousePosReference.x += 47.5;
-						this->ship.move(47.5, 0);
+						
+						if (this->ship.getGlobalBounds().left < 531.5) {
+							this->ship.move(47.5, 0);
+							mousePosReference.x += 47.5;
+						}
+							
 					} else {
-						mousePosReference.x -= 47.5;
-						this->ship.move(-47.5, 0);
+						if (this->ship.getGlobalBounds().left > 104) {
+							mousePosReference.x -= 47.5;
+							this->ship.move(-47.5, 0);
+						}
+						
 					}
 				}
 				else {
 					if (y >= 35) {
-						mousePosReference.y += 47.5;
-						this->ship.move(0, 47.5);
+						if (this->ship.getGlobalBounds().top < 451.5) {
+							mousePosReference.y += 47.5;
+							this->ship.move(0, 47.5);
+						}
+						
 					} else {
-						mousePosReference.y -= 47.5;
-						this->ship.move(0, -47.5);
+						if (this->ship.getGlobalBounds().top > 24) {
+							mousePosReference.y -= 47.5;
+							this->ship.move(0, -47.5);
+						}
+						
 					}
 				}
 			}
