@@ -1,5 +1,6 @@
 #pragma once
 #include "Statki.h"
+#include "Plansze.h"
 #include"SFML/Graphics.hpp"
 #include"SFML/Window.hpp"
 #include"SFML/System.hpp"
@@ -20,6 +21,7 @@ private:
 
 	//Obiekty Gry
 	std::vector <Statki> ships;
+	Plansze boards;
 
 	//T³a
 	sf::RectangleShape background;
@@ -51,7 +53,6 @@ public:
 	bool isInside(sf::Vector2i mouse, sf::FloatRect rect);
 	void updateMousePosition();
 	void updateShipPosition();
-
 
 	void update();
 	

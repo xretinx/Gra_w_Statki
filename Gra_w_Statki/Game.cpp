@@ -65,6 +65,9 @@ bool Game::running()
 
 void Game::pollEvents()
 {
+	//usunac
+	std::cout << (sf::Mouse::getPosition(*this->window).x - 704) / 47 << " " << (sf::Mouse::getPosition(*this->window).y - 24) / 47 << std::endl;
+
 	while (this->window->pollEvent(this->ev)) {
 		switch (this->ev.type) {
 		case sf::Event::Closed:
@@ -73,6 +76,12 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (ev.key.code == sf::Keyboard::Escape) this->window->close();
 			break;
+		case sf::Event::MouseButtonPressed:
+			switch (ev.key.code)
+			{
+			case sf::Mouse::Left:
+				boards.click(window);
+			}
 		}
 	}
 }
@@ -115,6 +124,8 @@ void Game::render()
 	this->renderBackground();
 	//rysowanie obiektów
 	this->window->draw(this->ships[0].ship);
+	boards.renderBoard1(window);
+	boards.renderBoard2(window);	
 	
 	//pokazanie na ekran
 	this->window->display();
