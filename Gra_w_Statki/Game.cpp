@@ -3,7 +3,6 @@
 void Game::initializerVariables()
 {
 	this->window = nullptr;
-	this->dragging = false;
 }
 
 void Game::initWindow()
@@ -16,8 +15,15 @@ void Game::initWindow()
 
 void Game::initShip()
 {
-	Statki ship(1);
-	ships.push_back(ship);
+	if (shipNumber < 9) {
+		this->shipNumber++;
+		Statki ship(shipSizes[shipNumber], shipNumber);
+		ships.push_back(ship);
+	}
+	else {
+
+	}
+	
 }
 
 void Game::initBackground()
@@ -45,12 +51,13 @@ void Game::initBackground()
 	this->background3.setTexture(&backgroundTexture3);
 }
 
-Game::Game()
+Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
 	this->initBackground();
+	this->isEnterPressed = false;
 }
 
 Game::~Game()
@@ -90,7 +97,19 @@ void Game::updateMousePosition()
 //do usuniecia
 void Game::updateShipPosition()
 {
-	ships[0].updateShip(this->mousePos, this->mousePosReference, dragging);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (this->isEnterPressed == false) {
+			this->initShip();
+			this->isEnterPressed = !this->isEnterPressed;
+		}
+	}
+	else{
+		for (auto& obj : ships) {
+			obj.updateShip(this->mousePos, this->mousePosReference);
+		}
+		this->isEnterPressed = false;
+	}
+	
 }
 
 void Game::update()
@@ -98,6 +117,14 @@ void Game::update()
 	this->pollEvents();
 	this->updateMousePosition();
 	this->updateShipPosition();
+}
+
+void Game::renderShip()
+{
+	for (auto& obj : ships) {
+		this->window->draw(obj.ship);
+	}
+
 }
 
 void Game::renderBackground()
@@ -114,7 +141,7 @@ void Game::render()
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
 	//rysowanie obiektów
-	this->window->draw(this->ships[0].ship);
+	this->renderShip();
 	
 	//pokazanie na ekran
 	this->window->display();

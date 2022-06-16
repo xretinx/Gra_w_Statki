@@ -1,41 +1,43 @@
 #include "Statki.h"
-Statki::Statki(int size)
+#include<iostream>
+Statki::Statki(int size, int num) : shipNumber(num)
 {
 	if (this->horizontalDirection) { 
-		this->ship.setSize(sf::Vector2f(size * 47.5, 47.5));
+		this->ship.setSize(sf::Vector2f(size * 47.5 + (size-1) * 3, 47.5));
 	}
 	else {
-		this->ship.setSize(sf::Vector2f(47.5, size * 47.5));
+		this->ship.setSize(sf::Vector2f(47.5, size * 47.5 + (size-1) * 3));
 	}
-	!this->horizontalDirection;
+	this->horizontalDirection = !this->horizontalDirection;
 	this->ship.setFillColor(sf::Color::Cyan);
 	this->ship.setPosition(104.0, 24.0);
 }
 
 Statki::~Statki(){}
 
-void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference, bool &dragging)
+int Statki::dragging = -1;
+
+void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 {
-	if (this->ship.getGlobalBounds().contains(mousePos.x, mousePos.y) || dragging) {
+	std::cout << this->dragging << " " << this->shipNumber << std::endl;
+	if (this->dragging == this->shipNumber || (this->ship.getGlobalBounds().contains(mousePos.x, mousePos.y) && this->dragging == -1)) {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			float x = mousePos.x - mousePosReference.x;
 			float y = mousePos.y - mousePosReference.y;
-			dragging = true;
+			this->dragging = this->shipNumber;
 			if (x >= 35 || x <= -35 || y >= 35 || y <= -35) {
 				if (x >= 35 || x <= -35) {
 					if (x >= 35) {
-						
 						if (this->ship.getGlobalBounds().left < 531.5) {
 							this->ship.move(47.5, 0);
 							mousePosReference.x += 47.5;
 						}
-							
-					} else {
+					}
+					else {
 						if (this->ship.getGlobalBounds().left > 104) {
 							mousePosReference.x -= 47.5;
 							this->ship.move(-47.5, 0);
 						}
-						
 					}
 				}
 				else {
@@ -44,21 +46,20 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference,
 							mousePosReference.y += 47.5;
 							this->ship.move(0, 47.5);
 						}
-						
-					} else {
+
+					}
+					else {
 						if (this->ship.getGlobalBounds().top > 24) {
 							mousePosReference.y -= 47.5;
 							this->ship.move(0, -47.5);
 						}
-						
 					}
 				}
 			}
-
 		}
 		else {
 			mousePosReference = mousePos;
-			dragging = false;
+			this->dragging = -1;
 		}
 	}
 }
