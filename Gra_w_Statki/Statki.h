@@ -5,14 +5,15 @@
 class Statki
 {
 public:
-	Statki(int size);
+	Statki(int size, int num);
 	~Statki();
-	void updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference, bool &dragging);
+	void updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference);
 	void renderShip();
 	sf::RectangleShape ship;
 
 private:
-	
+	int shipNumber;
+	static int dragging;
 	static bool horizontalDirection;
 };
 

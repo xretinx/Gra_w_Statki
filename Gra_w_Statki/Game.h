@@ -19,7 +19,12 @@ private:
 	sf::Vector2i mousePos;
 	sf::Vector2i mousePosReference;
 
+	//Przycisk enter
+	bool isEnterPressed;
+
 	//Obiekty Gry
+	int shipSizes[10]; 
+	int shipNumber=-1;
 	std::vector <Statki> ships;
 	Plansze boards;
 
@@ -32,7 +37,6 @@ private:
 	sf::Texture backgroundTexture3;
 
 	//Czy przesuwamy obiekt
-	bool dragging;
 
 	//Funkcje prywatne, wywo³ywane raz na pocz¹tku gry
 	void initializerVariables();
@@ -56,6 +60,7 @@ public:
 
 	void update();
 	
+	void renderShip();
 	void renderBackground();
 	void render();
 };
