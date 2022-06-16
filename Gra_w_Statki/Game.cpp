@@ -3,7 +3,6 @@
 void Game::initializerVariables()
 {
 	this->window = nullptr;
-	this->dragging = false;
 }
 
 void Game::initWindow()
@@ -16,41 +15,49 @@ void Game::initWindow()
 
 void Game::initShip()
 {
-	Statki ship(1);
-	ships.push_back(ship);
+	if (shipNumber < 9) {
+		this->shipNumber++;
+		Statki ship(shipSizes[shipNumber], shipNumber);
+		ships.push_back(ship);
+	}
+	else {
+
+	}
+	
 }
 
 void Game::initBackground()
 {
-	//T³o pierwsze
+	//Té€™ pierwsze
 	this->background.setSize(sf::Vector2f(500, 500));
 	this->background.setPosition(90.f, 10.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background.setTexture(&backgroundTexture);
-	//T³o drugie
+	//Té€™ drugie
 	this->background2.setSize(sf::Vector2f(500, 500));
 	this->background2.setPosition(690.f, 10.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture2.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background2.setTexture(&backgroundTexture2);
-	//T³o trzecie
+	//Té€™ trzecie
 	this->background3.setSize(sf::Vector2f(1280, 720));
 	this->background3.setPosition(0.f, 0.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture3.loadFromFile("assets/BCK.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background3.setTexture(&backgroundTexture3);
 }
 
-Game::Game()
+Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
 	this->initBackground();
+	this->isEnterPressed = false;
 }
 
 Game::~Game()
@@ -93,13 +100,25 @@ bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 
 void Game::updateMousePosition()
 {
-	//Aktualizuje pozycje myszy wzglêdem okienka
+	//Aktualizuje pozycje myszy wzglç’ em okienka
 	this->mousePos = sf::Mouse::getPosition(*this->window);
 }
 //do usuniecia
 void Game::updateShipPosition()
 {
-	ships[0].updateShip(this->mousePos, this->mousePosReference, dragging);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (this->isEnterPressed == false) {
+			this->initShip();
+			this->isEnterPressed = !this->isEnterPressed;
+		}
+	}
+	else{
+		for (auto& obj : ships) {
+			obj.updateShip(this->mousePos, this->mousePosReference);
+		}
+		this->isEnterPressed = false;
+	}
+	
 }
 
 void Game::update()
@@ -107,6 +126,14 @@ void Game::update()
 	this->pollEvents();
 	this->updateMousePosition();
 	this->updateShipPosition();
+}
+
+void Game::renderShip()
+{
+	for (auto& obj : ships) {
+		this->window->draw(obj.ship);
+	}
+
 }
 
 void Game::renderBackground()
@@ -122,10 +149,11 @@ void Game::render()
 	//czyszczenie okna
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
-	//rysowanie obiektów
-	this->window->draw(this->ships[0].ship);
+	//rysowanie obiekté—š
+
 	boards.renderBoard1(window);
 	boards.renderBoard2(window);	
+	this->renderShip();
 	
 	//pokazanie na ekran
 	this->window->display();
