@@ -28,26 +28,26 @@ void Game::initShip()
 
 void Game::initBackground()
 {
-	//T這 pierwsze
+	//Tlo pierwsze
 	this->background.setSize(sf::Vector2f(500, 500));
 	this->background.setPosition(90.f, 10.f);
-	//Za豉dowanie tekstury t豉
+	//Zaldowanie tekstury tla
 	if (!this->backgroundTexture.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t豉
+	//Ustawienie tekstury dla tla
 	this->background.setTexture(&backgroundTexture);
-	//T這 drugie
+	//tlo drugie
 	this->background2.setSize(sf::Vector2f(500, 500));
 	this->background2.setPosition(690.f, 10.f);
-	//Za豉dowanie tekstury t豉
+	//Zaldowanie tekstury tla
 	if (!this->backgroundTexture2.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t豉
+	//Ustawienie tekstury dla tla
 	this->background2.setTexture(&backgroundTexture2);
 	//T這 trzecie
 	this->background3.setSize(sf::Vector2f(1280, 720));
 	this->background3.setPosition(0.f, 0.f);
-	//Za豉dowanie tekstury t豉
+	//Za豉dowanie tekstury tla
 	if (!this->backgroundTexture3.loadFromFile("assets/BCK.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t豉
+	//Ustawienie tekstury dla tla
 	this->background3.setTexture(&backgroundTexture3);
 }
 

@@ -1,12 +1,11 @@
 #include "Statki.h"
-#include<iostream>
 Statki::Statki(int size, int num) : shipNumber(num)
 {
 	if (this->horizontalDirection) { 
-		this->ship.setSize(sf::Vector2f(size * 47.5 + (size-1) * 3, 47.5));
+		this->ship.setSize(sf::Vector2f(size * 47.5, 47.5));
 	}
 	else {
-		this->ship.setSize(sf::Vector2f(47.5, size * 47.5 + (size-1) * 3));
+		this->ship.setSize(sf::Vector2f(47.5, size * 47.5));
 	}
 	this->horizontalDirection = !this->horizontalDirection;
 	this->ship.setFillColor(sf::Color::Cyan);
@@ -19,7 +18,6 @@ int Statki::dragging = -1;
 
 void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 {
-	std::cout << this->dragging << " " << this->shipNumber << std::endl;
 	if (this->dragging == this->shipNumber || (this->ship.getGlobalBounds().contains(mousePos.x, mousePos.y) && this->dragging == -1)) {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			float x = mousePos.x - mousePosReference.x;

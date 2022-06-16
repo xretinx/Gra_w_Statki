@@ -1,0 +1,29 @@
+[33mf6a90b1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33maeca1ee[m HEAD@{1}: checkout: moving from logika_gry to master
+[33m05b1c56[m HEAD@{2}: commit: aa
+[33m0ba54a9[m HEAD@{3}: commit: Działa przesuwanie statków
+[33m815cf46[m HEAD@{4}: commit: Nie wychodzi poza plansze
+[33med7464b[m HEAD@{5}: commit (amend): działa przesuwanie
+[33mdf3dfd0[m HEAD@{6}: commit: działa przesuwanie
+[33m129b6af[m HEAD@{7}: commit: cos nowego
+[33m9e65080[m HEAD@{8}: commit: test
+[33mc50a427[m HEAD@{9}: commit: lol
+[33maeca1ee[m HEAD@{10}: checkout: moving from logika_gry to logika_gry
+[33maeca1ee[m HEAD@{11}: checkout: moving from logika_gry to logika_gry
+[33maeca1ee[m HEAD@{12}: checkout: moving from master to logika_gry
+[33maeca1ee[m HEAD@{13}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33mdda19e2[m HEAD@{14}: checkout: moving from Logika_gry to master
+[33mdda19e2[m HEAD@{15}: checkout: moving from master to Logika_gry
+[33mdda19e2[m HEAD@{16}: checkout: moving from Logika_gry to master
+[33mdda19e2[m HEAD@{17}: checkout: moving from master to Logika_gry
+[33mdda19e2[m HEAD@{18}: commit: kolejny commit
+[33m225e88c[m HEAD@{19}: commit: Project structure
+[33m461909c[m HEAD@{20}: commit: Pusty projekt z sfml
+[33m25ffbe3[m HEAD@{21}: commit: bmp
+[33md2b6223[m HEAD@{22}: commit: assets
+[33m58a4d2f[m HEAD@{23}: commit: usun nowąKlase
+[33m87a68de[m HEAD@{24}: commit: nowaKLasa
+[33m35362a0[m HEAD@{25}: commit: lala
+[33m0663f0e[m HEAD@{26}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33md2c47ab[m HEAD@{27}: commit: Dodaj pliki projektów.
+[33m151a339[m HEAD@{28}: commit (initial): Dodaj pliki .gitignore i .gitattributes.
