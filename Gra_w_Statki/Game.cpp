@@ -28,26 +28,26 @@ void Game::initShip()
 
 void Game::initBackground()
 {
-	//T³o pierwsze
+	//Té€™ pierwsze
 	this->background.setSize(sf::Vector2f(500, 500));
 	this->background.setPosition(90.f, 10.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background.setTexture(&backgroundTexture);
-	//T³o drugie
+	//Té€™ drugie
 	this->background2.setSize(sf::Vector2f(500, 500));
 	this->background2.setPosition(690.f, 10.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture2.loadFromFile("assets/MAP.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background2.setTexture(&backgroundTexture2);
-	//T³o trzecie
+	//Té€™ trzecie
 	this->background3.setSize(sf::Vector2f(1280, 720));
 	this->background3.setPosition(0.f, 0.f);
-	//Za³adowanie tekstury t³a
+	//Zaè±‰dowanie tekstury tè±‰
 	if (!this->backgroundTexture3.loadFromFile("assets/BCK.png")) std::cout << "Error with  loading background texture\n";
-	//Ustawienie tekstury dla t³a
+	//Ustawienie tekstury dla tè±‰
 	this->background3.setTexture(&backgroundTexture3);
 }
 
@@ -72,6 +72,9 @@ bool Game::running()
 
 void Game::pollEvents()
 {
+	//usunac
+	std::cout << (sf::Mouse::getPosition(*this->window).x - 704) / 47 << " " << (sf::Mouse::getPosition(*this->window).y - 24) / 47 << std::endl;
+
 	while (this->window->pollEvent(this->ev)) {
 		switch (this->ev.type) {
 		case sf::Event::Closed:
@@ -80,6 +83,12 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (ev.key.code == sf::Keyboard::Escape) this->window->close();
 			break;
+		case sf::Event::MouseButtonPressed:
+			switch (ev.key.code)
+			{
+			case sf::Mouse::Left:
+				boards.click(window);
+			}
 		}
 	}
 }
@@ -91,7 +100,7 @@ bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 
 void Game::updateMousePosition()
 {
-	//Aktualizuje pozycje myszy wzglêdem okienka
+	//Aktualizuje pozycje myszy wzglç’ em okienka
 	this->mousePos = sf::Mouse::getPosition(*this->window);
 }
 //do usuniecia
@@ -140,7 +149,10 @@ void Game::render()
 	//czyszczenie okna
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
-	//rysowanie obiektów
+	//rysowanie obiekté—š
+
+	boards.renderBoard1(window);
+	boards.renderBoard2(window);	
 	this->renderShip();
 	
 	//pokazanie na ekran
