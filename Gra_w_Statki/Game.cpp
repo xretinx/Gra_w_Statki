@@ -85,12 +85,20 @@ void Game::pollEvents()
 			if (ev.key.code == sf::Keyboard::Escape) this->window->close();
 			break;
 		case sf::Event::MouseButtonPressed:
-			switch (ev.key.code)
+			if (ev.mouseButton.button == sf::Mouse::Left)
 			{
-			case sf::Mouse::Left:
-				boards.click(window);
+				if (boards.click(window) == true)
+				{
+					round = 2;
+				}
 			}
 		}
+	}
+
+	if (round == 2)
+	{
+		bot();
+		round = 1;
 	}
 }
 
@@ -120,6 +128,32 @@ void Game::updateShipPosition()
 		this->isEnterPressed = false;
 	}
 	
+}
+
+void Game::bot()
+{
+	srand(time(0));
+	int random = rand() % 100;
+	for (int i = 0; i < 100; i++)
+	{
+		if (tiles[i] == random)
+		{
+			i = 0;
+			random = rand() % 100;
+		}
+	}
+	tiles[pos] = random;
+	pos++;
+	int x_target = random / 10;
+	int y_target = random % 10;
+	if (board1[x_target][y_target] == 0 || board1[x_target][y_target] == -1)
+	{
+		board1[x_target][y_target] = -2;
+	}
+	else if(board1[x_target][y_target] > 0)
+	{
+		board1[x_target][y_target] = -3;
+	}
 }
 
 void Game::update()

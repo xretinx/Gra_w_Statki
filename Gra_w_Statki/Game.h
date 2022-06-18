@@ -5,6 +5,8 @@
 #include"SFML/Window.hpp"
 #include"SFML/System.hpp"
 #include <vector>
+#include <cstdlib>
+#include <time.h>
 class Game
 {
 private:
@@ -29,6 +31,11 @@ private:
 	int board1[10][10]{0};
 	int board2[10][10]{0};
 	Plansze boards;
+
+	int round = 1;
+	int pos = 0;
+	int tiles[100];
+	void bot();
 
 	//T³a
 	sf::RectangleShape background;

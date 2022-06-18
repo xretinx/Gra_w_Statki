@@ -30,7 +30,7 @@ void Plansze::initBoard1()
             board1[i][j] = 0;
         }
     }
-    board1[1][1] = 1;
+    //board1[1][1] = 1;
 }
 
 void Plansze::initBoard2()
@@ -160,21 +160,24 @@ void Plansze::initBoard2()
 //-------------------------------------------------------
 //Update
 //-------------------------------------------------------
-void Plansze::click(sf::RenderWindow* window)
+bool Plansze::click(sf::RenderWindow* window)
 {
     int x = (sf::Mouse::getPosition(*window).x - board2Pos_x) / 47;
     int y = (sf::Mouse::getPosition(*window).y - board2Pos_y) / 47;
-    if (x >= 0 || x <= 9 && y >= 0 || y <= 9)
+    if (x >= 0 && x <= 9 && y >= 0 && y <= 9 && sf::Mouse::getPosition(*window).x - board2Pos_x >=0 && sf::Mouse::getPosition(*window).y - board2Pos_y >= 0)
     {
         if (board2[x][y] == 0 || board2[x][y] == -1)
         {
             board2[x][y] = -2;
+            return true;
         }
         else if (board2[x][y] > 0 && board2[x][y] < 5)
         {
             board2[x][y] = -3;
+            return true;
         }
     }
+    return false;
 }
 //-------------------------------------------------------
 //Render
@@ -185,9 +188,21 @@ void Plansze::renderBoard1(sf::RenderWindow* window)
     {
         for (int j = 0; j < 10; j++)
         {
-            if (board1[i][j] == 0)
+            if (board1[i][j] == 0 || board1[i][j] == -1)
             {
                 tiles1.setFillColor(sf::Color(0, 0, 80, 200));
+            }
+            else if (board1[i][j] > 0 && board1[i][j] < 5)
+            {
+                tiles1.setFillColor(sf::Color(120, 120, 120, 200));
+            }
+            else if (board1[i][j] == -2)
+            {
+                tiles1.setFillColor(sf::Color(200, 200, 200, 200));
+            }
+            else if (board1[i][j] == -3)
+            {
+                tiles1.setFillColor(sf::Color(120, 0, 0, 200));
             }
 
             tiles1.setSize(sf::Vector2f(47.5, 47.5));

@@ -30,7 +30,7 @@ public:
 	void obrysuj(int plansza[10][10], int x, int y);
 
 	//update
-	void click(sf::RenderWindow* window);
+	bool click(sf::RenderWindow* window);
 
 	//render
 	void renderBoard1(sf::RenderWindow* window);
