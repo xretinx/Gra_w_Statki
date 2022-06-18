@@ -53,6 +53,7 @@ void Game::initBackground()
 
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
+	boards.set(board1, board2);
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
@@ -73,7 +74,7 @@ bool Game::running()
 void Game::pollEvents()
 {
 	//usunac
-	std::cout << (sf::Mouse::getPosition(*this->window).x - 704) / 47 << " " << (sf::Mouse::getPosition(*this->window).y - 24) / 47 << std::endl;
+	//std::cout << (sf::Mouse::getPosition(*this->window).x - 704) / 47 << " " << (sf::Mouse::getPosition(*this->window).y - 24) / 47 << std::endl;
 
 	while (this->window->pollEvent(this->ev)) {
 		switch (this->ev.type) {

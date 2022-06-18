@@ -10,11 +10,11 @@ class Plansze
 {
 public:
 	//plansze
-	int board1[10][10]{};
+	int (*board1)[10]{};
 	sf::RectangleShape tiles1;
 	int board1Pos_x = 104;
 	int board1Pos_y = 24;
-	int board2[10][10]{};
+	int (*board2)[10]{};
 	sf::RectangleShape tiles2;
 	int board2Pos_x = 704;
 	int board2Pos_y = 24;
@@ -23,6 +23,7 @@ public:
 	Plansze();
 	~Plansze();
 
+	void set(int plansza1[10][10], int plansza2[10][10]);
 	void initBoard1();
 	void initBoard2();
 	bool sprawdz_pole(int plansza[10][10], int x, int y);

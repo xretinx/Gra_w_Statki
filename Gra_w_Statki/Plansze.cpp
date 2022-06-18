@@ -2,8 +2,7 @@
 
 Plansze::Plansze()
 {
-    this->initBoard1();
-    this->initBoard2();
+
 }
 
 Plansze::~Plansze()
@@ -14,6 +13,14 @@ Plansze::~Plansze()
 //-------------------------------------------------------
 //Init
 //-------------------------------------------------------
+void Plansze::set(int plansza1[10][10], int plansza2[10][10])
+{
+    board1 = plansza1;
+    board2 = plansza2;
+    this->initBoard1();
+    this->initBoard2();
+}
+
 void Plansze::initBoard1()
 {
     for (int i = 0; i < 10; i++)

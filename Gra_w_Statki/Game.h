@@ -26,6 +26,8 @@ private:
 	int shipSizes[10]; 
 	int shipNumber=-1;
 	std::vector <Statki> ships;
+	int board1[10][10]{0};
+	int board2[10][10]{0};
 	Plansze boards;
 
 	//T³a
