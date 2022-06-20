@@ -9,11 +9,15 @@ public:
 	~Statki();
 	void updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference);
 	void renderShip();
+	void goodPosition();
 	sf::RectangleShape ship;
 
 private:
 	int shipNumber;
 	static int dragging;
 	static bool horizontalDirection;
+	int size;
+	int x, y;
+	bool goodPos;
 };
 

@@ -9,7 +9,7 @@ void Game::initWindow()
 {
 	this->videoMode.height = 720;
 	this->videoMode.width = 1280;
-	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Default);
+	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
 }
 
@@ -51,9 +51,12 @@ void Game::initBackground()
 	this->background3.setTexture(&backgroundTexture3);
 }
 
+int Game::board1[10][10]{ 0 };
+int Game::board2[10][10]{ 0 };
+
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
-	boards.set(board1, board2);
+	boards.set(Game::board1, Game::board2);
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
@@ -184,7 +187,7 @@ void Game::render()
 	//czyszczenie okna
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
-	//rysowanie obiekt闚
+	//rysowanie obiektow
 
 	boards.renderBoard1(window);
 	boards.renderBoard2(window);	
