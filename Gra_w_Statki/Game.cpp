@@ -51,6 +51,45 @@ void Game::initBackground()
 	this->background3.setTexture(&backgroundTexture3);
 }
 
+void Game::initFont()
+{
+	if (!font.loadFromFile("Fonts/pixelmix.ttf"))
+	{
+		std::cout << "Error";
+	}
+}
+
+void Game::initText()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		buttonsText[i].setFont(font);
+		buttonsText[i].setCharacterSize(40);
+		buttonsText[i].setFillColor(sf::Color(255, 255, 255, 200));
+	}
+}
+
+void Game::initMenu()
+{
+	menu.setOutlineThickness(2.f);
+	menu.setSize(sf::Vector2f(450.f, 300.f));
+	menu.setPosition(sf::Vector2f((background3.getGlobalBounds().width + 2 * background3.getOutlineThickness() + 2 * menu.getOutlineThickness() - menu.getGlobalBounds().width) / 2, (background3.getGlobalBounds().height - menu.getGlobalBounds().height + 20) / 2));
+	menu.setFillColor(sf::Color(0, 0, 0, 0));
+	menu.setOutlineColor(sf::Color::White);
+
+	buttonsText[0].setString("New Game");
+	buttonsText[1].setString("Quit");
+
+	for (int i = 0; i < 3; i++)
+	{
+		buttons[i].setSize(sf::Vector2f(400.f, 80.f));
+		buttons[i].setFillColor(sf::Color(0, 0, 0, 255));
+		buttons[i].setPosition(sf::Vector2f((background3.getGlobalBounds().width + 2 * background3.getOutlineThickness() - buttons[i].getGlobalBounds().width) / 2, menu.getGlobalBounds().top + (menu.getGlobalBounds().height + menu.getOutlineThickness() * 2 - 2 * 120 + 39) / 2 + i * 120));
+		buttonsText[i].setPosition(sf::Vector2f((float)((int)(buttons[i].getGlobalBounds().left + (buttons[i].getGlobalBounds().width - buttonsText[i].getGlobalBounds().width) / 2)), (float)((int)(buttons[i].getGlobalBounds().top + buttons[i].getGlobalBounds().height / 2 - buttonsText[i].getGlobalBounds().height / 2 - 6.f))));
+	}
+	buttons[0].setFillColor(sf::Color(20, 20, 20, 255));
+}
+
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
 	boards.set(board1, board2);
@@ -59,6 +98,10 @@ Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 	this->initShip();
 	this->initBackground();
 	this->isEnterPressed = false;
+
+	this->initText();
+	this->initFont();
+	this->initMenu();
 }
 
 Game::~Game()
@@ -69,6 +112,47 @@ Game::~Game()
 bool Game::running()
 {
 	return this->window->isOpen();
+}
+
+void Game::pauseMenu()
+{
+	//menu pauzowania
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		if (prevKey != sf::Keyboard::Escape && mainMenu != 1)
+		{
+			temp = 0;
+			buttons[0].setFillColor(sf::Color(20, 20, 20, 255));
+			buttons[1].setFillColor(sf::Color(0, 0, 0, 255));
+			buttonsText[0].setString("New Game");
+			buttonsText[1].setString("Quit");
+
+			menu.setSize(sf::Vector2f(450.f, 300.f));
+			menu.setPosition(sf::Vector2f((background3.getGlobalBounds().width + 2 * background3.getOutlineThickness() + 2 * menu.getOutlineThickness() - menu.getGlobalBounds().width) / 2, (background3.getGlobalBounds().height - menu.getGlobalBounds().height + 20) / 2));
+
+			for (int i = 0; i < 2; i++)
+			{
+				buttons[i].setPosition(sf::Vector2f((background3.getGlobalBounds().width + 2 * background3.getOutlineThickness() - buttons[i].getGlobalBounds().width) / 2, menu.getGlobalBounds().top + (menu.getGlobalBounds().height + menu.getOutlineThickness() * 2 - 2 * 120 + 39) / 2 + i * 120));
+				buttonsText[i].setPosition(sf::Vector2f((float)((int)(buttons[i].getGlobalBounds().left + (buttons[i].getGlobalBounds().width - buttonsText[i].getGlobalBounds().width) / 2)), (float)((int)(buttons[i].getGlobalBounds().top + buttons[i].getGlobalBounds().height / 2 - buttonsText[i].getGlobalBounds().height / 2 - 6.f))));
+			}
+
+			if (stop == 0)
+			{
+				stopMenu = 1;
+				stop = 1;
+			}
+			else
+			{
+				stopMenu = 0;
+				stop = 0;
+			}
+		}
+		prevKey = sf::Keyboard::Escape;
+	}
+	else
+	{
+		prevKey = 0;
+	}
 }
 
 void Game::pollEvents()
@@ -82,10 +166,56 @@ void Game::pollEvents()
 			this->window->close();
 			break;
 		case sf::Event::KeyPressed:
-			if (ev.key.code == sf::Keyboard::Escape) this->window->close();
+			if (stop == 1)
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				{
+					//Zatwierdzanie opcji
+					if (buttons[0].getFillColor() == sf::Color(20, 20, 20, 255))
+					{
+						this->gameReset();
+					}
+					else if (buttons[1].getFillColor() == sf::Color(20, 20, 20, 255))
+					{
+						window->close();
+					}
+					else if (buttons[2].getFillColor() == sf::Color(20, 20, 20, 255))
+					{
+						mainMenu = 0;
+						stop = 0;
+					}
+					//----------------------------------------------------------
+				}
+
+				//Poruszanie sie po menu
+				int key = 0;
+				int help = 1;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					key = 1;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				{
+					key = -1;
+					help = 0;
+				}
+
+				buttons[temp].setFillColor(sf::Color(0, 0, 0, 255));
+				if (temp == help * (key))
+				{
+					temp = abs((help - 1)) * (temp + 1);
+					buttons[temp].setFillColor(sf::Color(20, 20, 20, 255));
+				}
+				else
+				{
+					temp = temp + key;
+					buttons[temp].setFillColor(sf::Color(20, 20, 20, 255));
+				}
+				//------------------------------------------------------------
+			}
 			break;
 		case sf::Event::MouseButtonPressed:
-			if (ev.mouseButton.button == sf::Mouse::Left)
+			if (ev.mouseButton.button == sf::Mouse::Left && stop == 0)
 			{
 				if (boards.click(window) == true)
 				{
@@ -95,7 +225,7 @@ void Game::pollEvents()
 		}
 	}
 
-	if (round == 2)
+	if (round == 2 && stop == 0)
 	{
 		bot();
 		round = 1;
@@ -158,6 +288,7 @@ void Game::bot()
 
 void Game::update()
 {
+	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
 	this->updateShipPosition();
@@ -185,11 +316,33 @@ void Game::render()
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
 	//rysowanie obiekt闚
-
-	boards.renderBoard1(window);
-	boards.renderBoard2(window);	
-	this->renderShip();
+	if (stop == 0)
+	{
+		boards.renderBoard1(window);
+		boards.renderBoard2(window);
+		this->renderShip();
+	}
+	else if (stop == 1)
+	{
+		window->draw(menu);
+		for (int i = 0; i < 2; i++)
+		{
+			window->draw(buttons[i]);
+			window->draw(buttonsText[i]);
+		}
+	}
 	
 	//pokazanie na ekran
 	this->window->display();
+}
+
+void Game::gameReset()
+{
+	stop = 0;
+	mainMenu = 0;
+	prevKey = 0;
+	boards.initBoard1();
+	boards.initBoard2();
+
+	this->initText();
 }
