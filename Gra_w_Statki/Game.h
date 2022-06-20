@@ -37,6 +37,34 @@ private:
 	int tiles[100];
 	void bot();
 
+	//do menu i nwm co z tym zrobic
+	sf::RectangleShape menu;
+	sf::RectangleShape button1;
+	sf::RectangleShape button2;
+	sf::RectangleShape button3;
+	sf::RectangleShape buttons[3] = { button1, button2, button3 };
+
+	sf::Font font;
+	sf::Text score;
+	sf::Text button1text;
+	sf::Text button2text;
+	sf::Text button3text;
+	sf::Text buttonsText[3] = { button1text, button2text, button3text };
+
+	bool mainMenu = 0;
+	bool stopMenu = 1;
+	bool stop = 1;
+	int temp = 0;
+
+	int prevKey = sf::Keyboard::Escape;
+
+	void initFont();
+	void initText();
+	void pauseMenu();
+
+	void gameReset();
+	//--------------------
+
 	//T³a
 	sf::RectangleShape background;
 	sf::Texture backgroundTexture;
@@ -52,6 +80,7 @@ private:
 	void initWindow();
 	void initShip();
 	void initBackground();
+	void initMenu();
 
 public:
 	//Konstruktory

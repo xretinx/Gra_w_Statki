@@ -30,27 +30,40 @@ void Plansze::initBoard1()
             board1[i][j] = 0;
         }
     }
-    //board1[1][1] = 1;
 }
 
 void Plansze::initBoard2()
 {
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            board2[i][j] = 0;
+        }
+    }
+
     int typ_statku = 4;
     int statek[] = { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
     int statek_nr = 0;
 
-    std::mt19937 generator(time(nullptr));
-    std::uniform_int_distribution<int> kierunek(0, 3);
-    std::uniform_int_distribution<int> pozycja(0, 9);
+    //int x = time(nullptr);
+    //std::mt19937 generator(x);
+    //std::uniform_int_distribution<int> kierunek(0, 3);
+    //std::uniform_int_distribution<int> pozycja(0, 9);
+
+    /*int kierunek = rand() % 4;
+    int pozycja = rand() % 10;*/
+
 
     while (typ_statku > 0)
     {
-        int x = pozycja(generator);
-        int y = pozycja(generator);
+        // = kierunek(generator)
+        int x = rand() % 10;
+        int y = rand() % 10;
         int xu = x;
         int yu = y;
 
-        int kier = kierunek(generator);
+        int kier = rand() % 4;
         bool ustaw_statek = 1;
 
         if (kier == 0 && x - typ_statku > -1)
