@@ -5,6 +5,7 @@ Plansze::Plansze()
     t1.loadFromFile("assets/X.png");
     t2.loadFromFile("assets/O.png");
     t3.loadFromFile("assets/W.png");
+    t4.loadFromFile("assets/X-.png");
 }
 
 Plansze::~Plansze()
@@ -206,23 +207,28 @@ void Plansze::renderBoard1(sf::RenderWindow* window)
         {
             if (board1[i][j] == 0 || board1[i][j] == -1)
             {
-                tiles1.setFillColor(sf::Color(0, 0, 80, 200));
+                tiles1.setFillColor(sf::Color(0, 0, 80, 0));
                 tiles1.setTexture(&t3);
             }
             else if (board1[i][j] > 0 && board1[i][j] < 5)
             {
-                tiles1.setFillColor(sf::Color(120, 120, 120, 200));
+                tiles1.setFillColor(sf::Color(120, 120, 120, 0));
                 tiles1.setTexture(&t3);
             }
             else if (board1[i][j] == -2)
             {
-                tiles1.setFillColor(sf::Color(200, 200, 200, 200));
+                tiles1.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles1.setTexture(&t2);
             }
             else if (board1[i][j] == -3)
             {
-                tiles1.setFillColor(sf::Color(120, 0, 0, 200));
+                tiles1.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles1.setTexture(&t1);
+            }
+            else if (board2[i][j] == -4)
+            {
+                tiles2.setFillColor(sf::Color(255, 255, 255, 255));
+                tiles2.setTexture(&t4);
             }
 
             tiles1.setSize(sf::Vector2f(47.5, 47.5));
@@ -260,7 +266,11 @@ void Plansze::renderBoard2(sf::RenderWindow* window)
                 tiles2.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles2.setTexture(&t1);
             }
-
+            else if (board2[i][j] == -4)
+            {
+                tiles2.setFillColor(sf::Color(255, 255, 255, 255));
+                tiles2.setTexture(&t4);
+            }
             tiles2.setSize(sf::Vector2f(47.5, 47.5));
             tiles2.setPosition(sf::Vector2f(board2Pos_x + i * 47.5, board2Pos_y + j * 47.5));
 
