@@ -20,7 +20,7 @@ public:
 	int board2Pos_x = 704;
 	int board2Pos_y = 24;
 
-	sf::Texture t1, t2, t3;
+	sf::Texture t1, t2, t3, t4;
 
 	//init
 	Plansze();
