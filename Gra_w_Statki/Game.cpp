@@ -26,6 +26,8 @@ void Game::initShip()
 	
 }
 
+bool Game::isShipSet = true;
+
 void Game::initBackground()
 {
 	//Tlo pierwsze
@@ -118,7 +120,8 @@ void Game::updateMousePosition()
 //do usuniecia
 void Game::updateShipPosition()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+	std::cout << this->isShipSet;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
 		if (this->isEnterPressed == false) {
 			this->initShip();
 			this->isEnterPressed = !this->isEnterPressed;

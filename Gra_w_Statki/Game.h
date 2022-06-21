@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
 class Game
 {
 public:
@@ -27,6 +28,7 @@ public:
 	//Obiekty Gry
 	int shipSizes[10]; 
 	int shipNumber=-1;
+	static bool isShipSet;
 	std::vector <Statki> ships;
 	static int board1[10][10];
 	static int board2[10][10];
