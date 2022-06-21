@@ -14,9 +14,12 @@ public:
 	sf::RectangleShape ship;
 
 private:
+	int offsideX;
+	int offsideY;
 	int shipNumber;
 	static int dragging;
-	static bool horizontalDirection;
+	static bool horizontalDirectionStatic;
+	bool horizontalDirection;
 	int size;
 	int x, y;
 	int old_x, old_y;

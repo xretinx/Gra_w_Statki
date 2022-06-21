@@ -251,7 +251,6 @@ void Game::updateMousePosition()
 //do usuniecia
 void Game::updateShipPosition()
 {
-	std::cout << this->isShipSet;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
 		if (this->isEnterPressed == false) {
 			this->initShip();
