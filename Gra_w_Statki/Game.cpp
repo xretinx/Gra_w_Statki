@@ -326,9 +326,10 @@ void Game::render()
 	//rysowanie obiekt闚
 	if (stop == 0)
 	{
+		this->renderShip();
 		boards.renderBoard1(window);
 		boards.renderBoard2(window);
-		this->renderShip();
+		
 	}
 	else if (stop == 1)
 	{
