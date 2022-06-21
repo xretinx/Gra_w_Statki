@@ -96,6 +96,16 @@ void Game::initMenu()
 	buttons[0].setFillColor(sf::Color(20, 20, 20, 255));
 }
 
+void Game::initScore() 
+{
+	score.setFont(font);
+	score.setString(std::to_string(wynik));
+	score.setFillColor(sf::Color::White);
+	score.setStyle(sf::Text::Bold);
+	score.setCharacterSize(200);
+	score.setPosition(sf::Vector2f(900.f, 6.f));
+}
+
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
 	boards.set(Game::board1, Game::board2);
@@ -108,6 +118,7 @@ Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 	this->initText();
 	this->initFont();
 	this->initMenu();
+	this->initScore();
 }
 
 Game::~Game()
@@ -266,6 +277,21 @@ void Game::updateShipPosition()
 	
 }
 
+void Game::updateScore()
+{
+	score.setString(std::to_string(wynik));
+}
+
+
+void Game::wynikinc()
+{
+	wynik = wynik + 1000;
+}
+void Game::wynikdec()
+{
+	wynik = wynik - 100;
+}
+
 void Game::bot()
 {
 	srand(time(0));
@@ -298,6 +324,7 @@ void Game::update()
 	this->pollEvents();
 	this->updateMousePosition();
 	this->updateShipPosition();
+	this->updateScore();
 }
 
 void Game::renderShip()
@@ -314,6 +341,12 @@ void Game::renderBackground()
 	this->window->draw(this->background);
 	this->window->draw(this->background2);
 	
+}
+
+void Game::renderScore()
+{
+	this->window->draw(this->score);
+
 }
 
 void Game::render()
@@ -339,7 +372,7 @@ void Game::render()
 			window->draw(buttonsText[i]);
 		}
 	}
-
+	this->renderScore();
 	
 	//pokazanie na ekran
 	this->window->display();

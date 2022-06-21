@@ -37,6 +37,7 @@ public:
 	int round = 1;
 	int pos = 0;
 	int tiles[100];
+	int wynik{};
 	void bot();
 
 	//do menu i nwm co z tym zrobic
@@ -83,6 +84,7 @@ public:
 	void initShip();
 	void initBackground();
 	void initMenu();
+	void initScore();
 
 public:
 	//Konstruktory
@@ -97,11 +99,15 @@ public:
 	bool isInside(sf::Vector2i mouse, sf::FloatRect rect);
 	void updateMousePosition();
 	void updateShipPosition();
+	void updateScore();
+	void wynikinc();
+	void wynikdec();
 
 	void update();
 	
 	void renderShip();
 	void renderBackground();
+	void renderScore();
 	void render();
 };
 
