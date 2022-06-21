@@ -19,6 +19,8 @@ public:
 	int board2Pos_x = 704;
 	int board2Pos_y = 24;
 
+	sf::Texture t1, t2, t3;
+
 	//init
 	Plansze();
 	~Plansze();
@@ -26,7 +28,7 @@ public:
 	void set(int plansza1[10][10], int plansza2[10][10]);
 	void initBoard1();
 	void initBoard2();
-	bool sprawdz_pole(int plansza[10][10], int x, int y);
+	static bool sprawdz_pole(int plansza[10][10], int x, int y);
 	void obrysuj(int plansza[10][10], int x, int y);
 
 	//update
@@ -35,8 +37,5 @@ public:
 	//render
 	void renderBoard1(sf::RenderWindow* window);
 	void renderBoard2(sf::RenderWindow* window);
-
-	//inne
-	int winning();
 };
 

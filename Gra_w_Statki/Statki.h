@@ -9,11 +9,18 @@ public:
 	~Statki();
 	void updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference);
 	void renderShip();
+	void goodPosition();
+	bool sprawdzPole(int x, int y);
 	sf::RectangleShape ship;
 
 private:
 	int shipNumber;
 	static int dragging;
 	static bool horizontalDirection;
+	int size;
+	int x, y;
+	int old_x, old_y;
+	bool goodPos;
+	bool positionChange;
 };
 

@@ -9,7 +9,7 @@ void Game::initWindow()
 {
 	this->videoMode.height = 720;
 	this->videoMode.width = 1280;
-	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Default);
+	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
 }
 
@@ -25,6 +25,8 @@ void Game::initShip()
 	}
 	
 }
+
+bool Game::isShipSet = true;
 
 void Game::initBackground()
 {
@@ -50,6 +52,10 @@ void Game::initBackground()
 	//Ustawienie tekstury dla tla
 	this->background3.setTexture(&backgroundTexture3);
 }
+
+
+int Game::board1[10][10]{ 0 };
+int Game::board2[10][10]{ 0 };
 
 void Game::initFont()
 {
@@ -92,7 +98,7 @@ void Game::initMenu()
 
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
-	boards.set(board1, board2);
+	boards.set(Game::board1, Game::board2);
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
@@ -116,7 +122,6 @@ bool Game::running()
 
 void Game::pauseMenu()
 {
-	//menu pauzowania
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		if (prevKey != sf::Keyboard::Escape && mainMenu != 1)
@@ -138,12 +143,10 @@ void Game::pauseMenu()
 
 			if (stop == 0)
 			{
-				stopMenu = 1;
 				stop = 1;
 			}
 			else
 			{
-				stopMenu = 0;
 				stop = 0;
 			}
 		}
@@ -179,11 +182,6 @@ void Game::pollEvents()
 					{
 						window->close();
 					}
-					else if (buttons[2].getFillColor() == sf::Color(20, 20, 20, 255))
-					{
-						mainMenu = 0;
-						stop = 0;
-					}
 					//----------------------------------------------------------
 				}
 
@@ -215,7 +213,7 @@ void Game::pollEvents()
 			}
 			break;
 		case sf::Event::MouseButtonPressed:
-			if (ev.mouseButton.button == sf::Mouse::Left && stop == 0)
+			if (ev.mouseButton.button == sf::Mouse::Left && stop == 0 && round != 0)
 			{
 				if (boards.click(window) == true)
 				{
@@ -235,29 +233,6 @@ void Game::pollEvents()
 bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 {
 	return rect.contains(mouse.x, mouse.y);
-}
-
-void Game::updateMousePosition()
-{
-	//Aktualizuje pozycje myszy wzgl璠em okienka
-	this->mousePos = sf::Mouse::getPosition(*this->window);
-}
-//do usuniecia
-void Game::updateShipPosition()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-		if (this->isEnterPressed == false) {
-			this->initShip();
-			this->isEnterPressed = !this->isEnterPressed;
-		}
-	}
-	else{
-		for (auto& obj : ships) {
-			obj.updateShip(this->mousePos, this->mousePosReference);
-		}
-		this->isEnterPressed = false;
-	}
-	
 }
 
 void Game::bot()
@@ -280,18 +255,63 @@ void Game::bot()
 	{
 		board1[x_target][y_target] = -2;
 	}
-	else if(board1[x_target][y_target] > 0)
+	else if (board1[x_target][y_target] > 0)
 	{
 		board1[x_target][y_target] = -3;
 	}
 }
 
+void Game::updateMousePosition()
+{
+	//Aktualizuje pozycje myszy wzgl璠em okienka
+	this->mousePos = sf::Mouse::getPosition(*this->window);
+}
+//do usuniecia
+void Game::updateShipPosition()
+{
+	std::cout << this->isShipSet;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
+		if (this->isEnterPressed == false) {
+			this->initShip();
+			this->isEnterPressed = !this->isEnterPressed;
+			shipcount++;
+		}
+	}
+	else{
+		for (auto& obj : ships) {
+			obj.updateShip(this->mousePos, this->mousePosReference);
+		}
+		this->isEnterPressed = false;
+	}
+	
+}
+
 void Game::update()
 {
+	if (round != 0)
+	{
+		if (winning() == 1)
+		{
+			std::cout << "You won" << std::endl;
+		}
+		else if (winning() == 2)
+		{
+			std::cout << "Opponent won" << std::endl;
+		}
+	}
+	
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
-	this->updateShipPosition();
+	std::cout << round << " " << stop << " " << shipcount << std::endl;
+	if (stop == 0 && round == 0)
+	{
+		this->updateShipPosition();
+		if (shipcount > 10)
+		{
+			round = 1;
+		}
+	}
 }
 
 void Game::renderShip()
@@ -315,12 +335,14 @@ void Game::render()
 	//czyszczenie okna
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
+
 	//rysowanie obiekt闚
 	if (stop == 0)
 	{
+		this->renderShip();
 		boards.renderBoard1(window);
 		boards.renderBoard2(window);
-		this->renderShip();
+		
 	}
 	else if (stop == 1)
 	{
@@ -331,6 +353,7 @@ void Game::render()
 			window->draw(buttonsText[i]);
 		}
 	}
+
 	
 	//pokazanie na ekran
 	this->window->display();
@@ -338,11 +361,54 @@ void Game::render()
 
 void Game::gameReset()
 {
+	shipNumber = -1;
+	round = 0;
+	shipcount = 1;
 	stop = 0;
 	mainMenu = 0;
 	prevKey = 0;
 	boards.initBoard1();
 	boards.initBoard2();
+	ships.clear();
+	this->initShip();
 
 	this->initText();
+}
+
+int Game::winning()
+{
+	int x = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board1[i][j] > 0)
+			{
+				x = 1;
+			}
+		}
+	}
+	if (x == 0)
+	{
+		return 2;
+	}
+	x = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board2[i][j] > 0)
+			{
+				x = 1;
+			}
+		}
+	}
+	if (x == 0)
+	{
+		return 1;
+	}
+
+	return 0;
 }

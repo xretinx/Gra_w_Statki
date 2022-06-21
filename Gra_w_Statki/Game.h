@@ -7,9 +7,10 @@
 #include <vector>
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
 class Game
 {
-private:
+public:
 	//Obiekt window
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
@@ -27,12 +28,13 @@ private:
 	//Obiekty Gry
 	int shipSizes[10]; 
 	int shipNumber=-1;
+	static bool isShipSet;
 	std::vector <Statki> ships;
-	int board1[10][10]{0};
-	int board2[10][10]{0};
+	static int board1[10][10];
+	static int board2[10][10];
 	Plansze boards;
 
-	int round = 1;
+	int round = 0;
 	int pos = 0;
 	int tiles[100];
 	void bot();
@@ -51,10 +53,11 @@ private:
 	sf::Text button3text;
 	sf::Text buttonsText[3] = { button1text, button2text, button3text };
 
-	bool mainMenu = 0;
+	bool mainMenu = 1;
 	bool stopMenu = 1;
 	bool stop = 1;
 	int temp = 0;
+	int shipcount = 0;
 
 	int prevKey = sf::Keyboard::Escape;
 
@@ -62,7 +65,6 @@ private:
 	void initText();
 	void pauseMenu();
 
-	void gameReset();
 	//--------------------
 
 	//T³a
@@ -89,6 +91,8 @@ public:
 
 	//Akcesoria
 	bool running();
+	int winning();
+	void gameReset();
 
 	//Funkcje
 	void pollEvents();
