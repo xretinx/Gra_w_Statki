@@ -2,7 +2,6 @@
 
 Plansze::Plansze()
 {
-
     t1.loadFromFile("assets/X.png");
     t2.loadFromFile("assets/O.png");
     t3.loadFromFile("assets/W.png");
