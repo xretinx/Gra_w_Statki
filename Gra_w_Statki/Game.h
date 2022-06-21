@@ -7,9 +7,10 @@
 #include <vector>
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
 class Game
 {
-private:
+public:
 	//Obiekt window
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
@@ -27,9 +28,10 @@ private:
 	//Obiekty Gry
 	int shipSizes[10]; 
 	int shipNumber=-1;
+	static bool isShipSet;
 	std::vector <Statki> ships;
-	int board1[10][10]{0};
-	int board2[10][10]{0};
+	static int board1[10][10];
+	static int board2[10][10];
 	Plansze boards;
 
 	int round = 1;

@@ -9,7 +9,7 @@ void Game::initWindow()
 {
 	this->videoMode.height = 720;
 	this->videoMode.width = 1280;
-	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Default);
+	this->window = new sf::RenderWindow(this->videoMode, "Statki", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
 }
 
@@ -25,6 +25,8 @@ void Game::initShip()
 	}
 	
 }
+
+bool Game::isShipSet = true;
 
 void Game::initBackground()
 {
@@ -50,6 +52,10 @@ void Game::initBackground()
 	//Ustawienie tekstury dla tla
 	this->background3.setTexture(&backgroundTexture3);
 }
+
+
+int Game::board1[10][10]{ 0 };
+int Game::board2[10][10]{ 0 };
 
 void Game::initFont()
 {
@@ -92,7 +98,7 @@ void Game::initMenu()
 
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
-	boards.set(board1, board2);
+	boards.set(Game::board1, Game::board2);
 	this->initializerVariables();
 	this->initWindow();
 	this->initShip();
@@ -245,7 +251,8 @@ void Game::updateMousePosition()
 //do usuniecia
 void Game::updateShipPosition()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+	std::cout << this->isShipSet;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
 		if (this->isEnterPressed == false) {
 			this->initShip();
 			this->isEnterPressed = !this->isEnterPressed;
@@ -315,6 +322,7 @@ void Game::render()
 	//czyszczenie okna
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	this->renderBackground();
+
 	//rysowanie obiekt闚
 	if (stop == 0)
 	{
@@ -331,6 +339,7 @@ void Game::render()
 			window->draw(buttonsText[i]);
 		}
 	}
+
 	
 	//pokazanie na ekran
 	this->window->display();

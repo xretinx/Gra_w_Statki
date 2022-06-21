@@ -1,15 +1,25 @@
+#pragma once
 #include "Statki.h"
-Statki::Statki(int size, int num) : shipNumber(num)
+#include "Plansze.h"
+#include "Game.h"
+#include <iostream>
+Statki::Statki(int _size, int num) : shipNumber(num), size(_size)
 {
+	this->horizontalDirection = !this->horizontalDirection;
 	if (this->horizontalDirection) { 
-		this->ship.setSize(sf::Vector2f(size * 47.5, 47.5));
+		this->ship.setSize(sf::Vector2f(_size * 47.5, 47.5));
 	}
 	else {
-		this->ship.setSize(sf::Vector2f(47.5, size * 47.5));
+		this->ship.setSize(sf::Vector2f(47.5, _size * 47.5));
 	}
-	this->horizontalDirection = !this->horizontalDirection;
 	this->ship.setFillColor(sf::Color::Cyan);
 	this->ship.setPosition(104.0, 24.0);
+	this->x = 0;
+	this->y = 0;
+	this->old_x = 0;
+	this->old_y = 0;
+	this->positionChange = false;
+	this->goodPosition();
 }
 
 Statki::~Statki(){}
@@ -24,17 +34,20 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 			float y = mousePos.y - mousePosReference.y;
 			this->dragging = this->shipNumber;
 			if (x >= 35 || x <= -35 || y >= 35 || y <= -35) {
+				this->positionChange = true;
 				if (x >= 35 || x <= -35) {
 					if (x >= 35) {
 						if (this->ship.getGlobalBounds().left < 531.5) {
 							this->ship.move(47.5, 0);
 							mousePosReference.x += 47.5;
+							this->x++;
 						}
 					}
 					else {
 						if (this->ship.getGlobalBounds().left > 104) {
 							mousePosReference.x -= 47.5;
 							this->ship.move(-47.5, 0);
+							this->x--;
 						}
 					}
 				}
@@ -43,6 +56,7 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 						if (this->ship.getGlobalBounds().top < 451.5) {
 							mousePosReference.y += 47.5;
 							this->ship.move(0, 47.5);
+							this->y++;
 						}
 
 					}
@@ -50,9 +64,22 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 						if (this->ship.getGlobalBounds().top > 24) {
 							mousePosReference.y -= 47.5;
 							this->ship.move(0, -47.5);
+							this->y--;
 						}
 					}
 				}
+				if (this->horizontalDirection) {
+					for (int i = 0; i < this->size; i++) {
+						Game::board1[this->old_x + i][this->old_y] = 0;
+					}
+				}
+				else {
+					for (int i = 0; i < this->size; i++) {
+						Game::board1[this->old_x][this->old_y + i] = 0;
+					}
+				}
+				this->goodPosition();
+				std::cout << this->x << " " << this->y << std::endl;
 			}
 		}
 		else {
@@ -60,6 +87,72 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 			this->dragging = -1;
 		}
 	}
+	else {
+		if (this->positionChange == true) {
+			if (this->horizontalDirection) {
+				for (int i = 0; i < this->size; i++) {
+					Game::board1[this->x + i][this->y] = this->size;
+					//Game::board1[this->old_x + i][this->old_y] = 0;
+				}
+			}
+			else {
+				for (int i = 0; i < this->size; i++) {
+					Game::board1[this->x][this->y + i] = this->size;
+					//Game::board1[this->old_x][this->old_y + i] = 0;
+				}
+			}
+			this->old_x = this->x;
+			this->old_y = this->y;
+		}
+		this->positionChange = false;
+	}
+}
+
+void Statki::goodPosition()
+{
+	std::cout << this->horizontalDirection;
+	if (this->horizontalDirection) {
+		for (int i = 0; i < this->size; i++) {
+			if (this->sprawdzPole(x + i, y) == 0) {
+;				this->goodPos = false;
+				this->ship.setFillColor(sf::Color::Red);
+				Game::isShipSet = false;
+				return;
+			}
+		}
+		this->goodPos = true;
+		Game::isShipSet = true;
+		this->ship.setFillColor(sf::Color::Cyan);
+	}
+	else {
+		for (int i = 0; i < this->size; i++) {
+			if (this->sprawdzPole(x, y + i) == 0) {
+				this->goodPos = false;
+				this->ship.setFillColor(sf::Color::Red);
+				Game::isShipSet = false;
+				return;
+			}
+		}
+		this->goodPos = true;
+		Game::isShipSet = true;
+		this->ship.setFillColor(sf::Color::Cyan);
+	}
+}
+
+bool Statki::sprawdzPole(int x, int y)
+{
+	for (int i = x - 1; i <= x + 1; i++) {
+		if (i < 0 || i > 9) continue;
+		for (int j = y - 1; j <= y + 1; j++)
+		{
+			if (j < 0 || j > 9) continue;
+			if (Game::board1[i][j] > 0) 
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
 void Statki::renderShip()
@@ -67,4 +160,4 @@ void Statki::renderShip()
 	
 }
 
-bool Statki::horizontalDirection = true;
+bool Statki::horizontalDirection = false;
