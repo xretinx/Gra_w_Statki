@@ -191,7 +191,7 @@ bool Plansze::click(sf::RenderWindow* window)
         else if (board2[x][y] > 0 && board2[x][y] < 5)
         {
             this->czyZatopiony(x, y);
-            board2[x][y] = -3;
+            if(board2[x][y] > 0) board2[x][y] = -3;
             return true;
         }
     }
@@ -233,7 +233,7 @@ void Plansze::czyZatopiony(int x, int y) {
             }
         }
     }
-   std::cout << pary.size() << " ";
+   //std::cout << pary.size() << " ";
     if (pary.size() == rozmiar)
     {
         for (int i = 0; i < rozmiar; i++) {

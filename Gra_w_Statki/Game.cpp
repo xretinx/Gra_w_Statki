@@ -270,7 +270,6 @@ void Game::updateMousePosition()
 //do usuniecia
 void Game::updateShipPosition()
 {
-	std::cout << this->isShipSet;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
 		if (this->isEnterPressed == false) {
 			this->initShip();
@@ -304,7 +303,7 @@ void Game::update()
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
-	std::cout << round << " " << stop << " " << shipcount << std::endl;
+	//std::cout << round << " " << stop << " " << shipcount << std::endl;
 	if (stop == 0 && round == 0)
 	{
 		this->updateShipPosition();
