@@ -31,7 +31,6 @@ Statki::Statki(int _size, int num) : shipNumber(num), size(_size)
 		this->offsideX = 0;
 		this->offsideY = (this->size - 1) * 47.5;
 	}
-	//std::cout << this->horizontalDirection;
 }
 
 Statki::~Statki(){}
@@ -50,7 +49,6 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 				if (x >= 35 || x <= -35) {
 					if (x >= 35) {
 						if (this->ship.getGlobalBounds().left < 531.0 - this->offsideX) {
-							std::cout << this->ship.getGlobalBounds().left << "  ";
 							this->ship.move(47.5, 0);
 							mousePosReference.x += 47.5;
 							this->x++;
@@ -58,7 +56,6 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 					}
 					else {
 						if (this->ship.getGlobalBounds().left > 104) {
-							std::cout << this->ship.getGlobalBounds().left << "  ";
 							mousePosReference.x -= 47.5;
 							this->ship.move(-47.5, 0);
 							this->x--;
@@ -173,3 +170,4 @@ void Statki::renderShip()
 }
 
 bool Statki::horizontalDirectionStatic = false;
+

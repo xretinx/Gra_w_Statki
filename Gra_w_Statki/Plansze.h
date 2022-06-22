@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <vector>
 
 class Plansze
 {
@@ -31,6 +32,7 @@ public:
 	void initBoard2();
 	static bool sprawdz_pole(int plansza[10][10], int x, int y);
 	void obrysuj(int plansza[10][10], int x, int y);
+	void czyZatopiony(int x, int y);
 
 	//update
 	bool click(sf::RenderWindow* window);
@@ -38,8 +40,5 @@ public:
 	//render
 	void renderBoard1(sf::RenderWindow* window);
 	void renderBoard2(sf::RenderWindow* window);
-
-	//inne
-	int winning();
 };
 

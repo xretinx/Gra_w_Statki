@@ -133,7 +133,6 @@ bool Game::running()
 
 void Game::pauseMenu()
 {
-	//menu pauzowania
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		if (prevKey != sf::Keyboard::Escape && mainMenu != 1)
@@ -155,12 +154,10 @@ void Game::pauseMenu()
 
 			if (stop == 0)
 			{
-				stopMenu = 1;
 				stop = 1;
 			}
 			else
 			{
-				stopMenu = 0;
 				stop = 0;
 			}
 		}
@@ -196,11 +193,6 @@ void Game::pollEvents()
 					{
 						window->close();
 					}
-					else if (buttons[2].getFillColor() == sf::Color(20, 20, 20, 255))
-					{
-						mainMenu = 0;
-						stop = 0;
-					}
 					//----------------------------------------------------------
 				}
 
@@ -232,7 +224,7 @@ void Game::pollEvents()
 			}
 			break;
 		case sf::Event::MouseButtonPressed:
-			if (ev.mouseButton.button == sf::Mouse::Left && stop == 0)
+			if (ev.mouseButton.button == sf::Mouse::Left && stop == 0 && round != 0)
 			{
 				if (boards.click(window) == true)
 				{
@@ -254,28 +246,6 @@ bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 	return rect.contains(mouse.x, mouse.y);
 }
 
-void Game::updateMousePosition()
-{
-	//Aktualizuje pozycje myszy wzgl璠em okienka
-	this->mousePos = sf::Mouse::getPosition(*this->window);
-}
-//do usuniecia
-void Game::updateShipPosition()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
-		if (this->isEnterPressed == false) {
-			this->initShip();
-			this->isEnterPressed = !this->isEnterPressed;
-		}
-	}
-	else{
-		for (auto& obj : ships) {
-			obj.updateShip(this->mousePos, this->mousePosReference);
-		}
-		this->isEnterPressed = false;
-	}
-	
-}
 
 void Game::updateScore()
 {
@@ -321,19 +291,64 @@ void Game::bot()
 	{
 		board1[x_target][y_target] = -2;
 	}
-	else if(board1[x_target][y_target] > 0)
+	else if (board1[x_target][y_target] > 0)
 	{
 		board1[x_target][y_target] = -3;
 	}
 }
 
+void Game::updateMousePosition()
+{
+	//Aktualizuje pozycje myszy wzgl璠em okienka
+	this->mousePos = sf::Mouse::getPosition(*this->window);
+}
+//do usuniecia
+void Game::updateShipPosition()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
+		if (this->isEnterPressed == false) {
+			this->initShip();
+			this->isEnterPressed = !this->isEnterPressed;
+			shipcount++;
+		}
+	}
+	else{
+		for (auto& obj : ships) {
+			obj.updateShip(this->mousePos, this->mousePosReference);
+		}
+		this->isEnterPressed = false;
+	}
+	
+}
+
 void Game::update()
 {
+	if (round != 0)
+	{
+		if (winning() == 1)
+		{
+			std::cout << "You won" << std::endl;
+		}
+		else if (winning() == 2)
+		{
+			std::cout << "Opponent won" << std::endl;
+		}
+	}
+	
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
 	this->updateShipPosition();
 	this->updateScore();
+	//std::cout << round << " " << stop << " " << shipcount << std::endl;
+	if (stop == 0 && round == 0)
+	{
+		this->updateShipPosition();
+		if (shipcount > 10)
+		{
+			round = 1;
+		}
+	}
 }
 
 void Game::renderShip()
@@ -389,11 +404,54 @@ void Game::render()
 
 void Game::gameReset()
 {
+	shipNumber = -1;
+	round = 0;
+	shipcount = 1;
 	stop = 0;
 	mainMenu = 0;
 	prevKey = 0;
 	boards.initBoard1();
 	boards.initBoard2();
+	ships.clear();
+	this->initShip();
 
 	this->initText();
+}
+
+int Game::winning()
+{
+	int x = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board1[i][j] > 0)
+			{
+				x = 1;
+			}
+		}
+	}
+	if (x == 0)
+	{
+		return 2;
+	}
+	x = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board2[i][j] > 0)
+			{
+				x = 1;
+			}
+		}
+	}
+	if (x == 0)
+	{
+		return 1;
+	}
+
+	return 0;
 }

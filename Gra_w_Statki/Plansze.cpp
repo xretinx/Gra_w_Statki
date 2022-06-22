@@ -190,11 +190,57 @@ bool Plansze::click(sf::RenderWindow* window)
         }
         else if (board2[x][y] > 0 && board2[x][y] < 5)
         {
-            board2[x][y] = -3;
+            this->czyZatopiony(x, y);
+            if(board2[x][y] > 0) board2[x][y] = -3;
             return true;
         }
     }
     return false;
+}
+struct Lista {
+    int x;
+    int y;
+};
+
+bool doesntRepeat(std::vector<Lista> pary, int x, int y) {
+    for (auto& it : pary) {
+        if (it.x == x && it.y == y) return false;
+    }
+    return true;
+}
+void Plansze::czyZatopiony(int x, int y) {
+    std::vector<Lista> pary;
+    int rozmiar = board2[x][y];
+    //std::cout << board2[x][y] << "\n";
+    Lista pair{ x, y };
+    pary.push_back(pair);
+    for (int a = 0; a < rozmiar; a++) {
+        if (a >= pary.size()) return;
+        //std::cout << "a:" << a;
+        x = pary[a].x;  y = pary[a].y;
+        //std::cout << x << " " << y << std::endl;
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i != x || j != y) {
+                    if (board2[i][j] == -3) {
+                        if (doesntRepeat(pary, i, j) == true) {
+                            //std::cout << "siega tu? ";
+                            Lista qwerty{i,j};
+                            pary.push_back(qwerty);
+                        }
+                    }
+                }
+            }
+        }
+    }
+   //std::cout << pary.size() << " ";
+    if (pary.size() == rozmiar)
+    {
+        for (int i = 0; i < rozmiar; i++) {
+            board2[pary[i].x][pary[i].y] = -4;
+            std::cout << pary[i].x << " " << pary[i].y << board2[pary[i].x][pary[i].y] << std::endl;
+        }
+    }
 }
 //-------------------------------------------------------
 //Render
@@ -281,44 +327,6 @@ void Plansze::renderBoard2(sf::RenderWindow* window)
 //-------------------------------------------------------
 //Inne
 //-------------------------------------------------------
-int Plansze::winning()
-{
-    int x = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (board1[i][j] > 0)
-            {
-                x = 1;
-            }
-        }
-    }
-    if (x == 0)
-    {
-        return 2;
-    }
-    x = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (board2[i][j] > 0)
-            {
-                x = 1;
-            }
-        }
-    }
-    if (x == 0)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
 bool Plansze::sprawdz_pole(int plansza[10][10], int x, int y)
 {
     if (plansza[x][y] == 0)
