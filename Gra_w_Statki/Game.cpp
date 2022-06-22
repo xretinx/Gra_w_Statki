@@ -338,7 +338,6 @@ void Game::update()
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
-	this->updateShipPosition();
 	this->updateScore();
 	//std::cout << round << " " << stop << " " << shipcount << std::endl;
 	if (stop == 0 && round == 0)
