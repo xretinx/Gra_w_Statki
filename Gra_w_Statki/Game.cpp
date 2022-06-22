@@ -103,7 +103,7 @@ void Game::initScore()
 	score.setFillColor(sf::Color::White);
 	score.setStyle(sf::Text::Bold);
 	score.setCharacterSize(200);
-	score.setPosition(sf::Vector2f(900.f, 6.f));
+	score.setPosition(sf::Vector2f(700.f, 500.f));
 }
 
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
@@ -279,7 +279,26 @@ void Game::updateShipPosition()
 
 void Game::updateScore()
 {
+	polaspudlowane = 0;
+	polatrafione = 0;
+	for (int i{}; i < 10; i++) {
+		for (int j{}; j < 10; j++) {
+			if (board2[i][j] == -2) {
+				polaspudlowane++;
+			}
+			if (board2[i][j] <= -3) {
+				polatrafione++;
+			}
+		}
+	}
+	wynik = (polatrafione * 1000) - (polaspudlowane * 100);
 	score.setString(std::to_string(wynik));
+	wynik = 0;
+	std::cout << polaspudlowane << "   " << polatrafione << std::endl;
+	if (polatrafione == 20) {
+		window->close();
+	}
+	score.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - score.getGlobalBounds().width) / 2)), 500.f));
 }
 
 

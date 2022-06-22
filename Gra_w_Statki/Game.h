@@ -38,6 +38,8 @@ public:
 	int pos = 0;
 	int tiles[100];
 	int wynik{};
+	int polaspudlowane{};
+	int polatrafione{};
 	void bot();
 
 	//do menu i nwm co z tym zrobic
