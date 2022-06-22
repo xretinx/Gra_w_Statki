@@ -5,6 +5,7 @@ Plansze::Plansze()
     t1.loadFromFile("assets/X.png");
     t2.loadFromFile("assets/O.png");
     t3.loadFromFile("assets/W.png");
+    t4.loadFromFile("assets/X-.png");
 }
 
 Plansze::~Plansze()
@@ -189,11 +190,57 @@ bool Plansze::click(sf::RenderWindow* window)
         }
         else if (board2[x][y] > 0 && board2[x][y] < 5)
         {
+            this->czyZatopiony(x, y);
             board2[x][y] = -3;
             return true;
         }
     }
     return false;
+}
+struct Lista {
+    int x;
+    int y;
+};
+
+bool doesntRepeat(std::vector<Lista> pary, int x, int y) {
+    for (auto& it : pary) {
+        if (it.x == x && it.y == y) return false;
+    }
+    return true;
+}
+void Plansze::czyZatopiony(int x, int y) {
+    std::vector<Lista> pary;
+    int rozmiar = board2[x][y];
+    //std::cout << board2[x][y] << "\n";
+    Lista pair{ x, y };
+    pary.push_back(pair);
+    for (int a = 0; a < rozmiar; a++) {
+        if (a >= pary.size()) return;
+        //std::cout << "a:" << a;
+        x = pary[a].x;  y = pary[a].y;
+        //std::cout << x << " " << y << std::endl;
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i != x || j != y) {
+                    if (board2[i][j] == -3) {
+                        if (doesntRepeat(pary, i, j) == true) {
+                            //std::cout << "siega tu? ";
+                            Lista qwerty{i,j};
+                            pary.push_back(qwerty);
+                        }
+                    }
+                }
+            }
+        }
+    }
+   std::cout << pary.size() << " ";
+    if (pary.size() == rozmiar)
+    {
+        for (int i = 0; i < rozmiar; i++) {
+            board2[pary[i].x][pary[i].y] = -4;
+            std::cout << pary[i].x << " " << pary[i].y << board2[pary[i].x][pary[i].y] << std::endl;
+        }
+    }
 }
 //-------------------------------------------------------
 //Render
@@ -206,23 +253,28 @@ void Plansze::renderBoard1(sf::RenderWindow* window)
         {
             if (board1[i][j] == 0 || board1[i][j] == -1)
             {
-                tiles1.setFillColor(sf::Color(0, 0, 80, 200));
+                tiles1.setFillColor(sf::Color(0, 0, 80, 0));
                 tiles1.setTexture(&t3);
             }
             else if (board1[i][j] > 0 && board1[i][j] < 5)
             {
-                tiles1.setFillColor(sf::Color(120, 120, 120, 200));
+                tiles1.setFillColor(sf::Color(120, 120, 120, 0));
                 tiles1.setTexture(&t3);
             }
             else if (board1[i][j] == -2)
             {
-                tiles1.setFillColor(sf::Color(200, 200, 200, 200));
+                tiles1.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles1.setTexture(&t2);
             }
             else if (board1[i][j] == -3)
             {
-                tiles1.setFillColor(sf::Color(120, 0, 0, 200));
+                tiles1.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles1.setTexture(&t1);
+            }
+            else if (board2[i][j] == -4)
+            {
+                tiles2.setFillColor(sf::Color(255, 255, 255, 255));
+                tiles2.setTexture(&t4);
             }
 
             tiles1.setSize(sf::Vector2f(47.5, 47.5));
@@ -260,7 +312,11 @@ void Plansze::renderBoard2(sf::RenderWindow* window)
                 tiles2.setFillColor(sf::Color(255, 255, 255, 255));
                 tiles2.setTexture(&t1);
             }
-
+            else if (board2[i][j] == -4)
+            {
+                tiles2.setFillColor(sf::Color(255, 255, 255, 255));
+                tiles2.setTexture(&t4);
+            }
             tiles2.setSize(sf::Vector2f(47.5, 47.5));
             tiles2.setPosition(sf::Vector2f(board2Pos_x + i * 47.5, board2Pos_y + j * 47.5));
 

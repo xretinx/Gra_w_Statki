@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <vector>
 
 class Plansze
 {
@@ -19,7 +20,8 @@ public:
 	int board2Pos_x = 704;
 	int board2Pos_y = 24;
 
-	sf::Texture t1, t2, t3;
+	sf::Texture t1, t2, t3, t4;
+
 
 	//init
 	Plansze();
@@ -30,6 +32,7 @@ public:
 	void initBoard2();
 	static bool sprawdz_pole(int plansza[10][10], int x, int y);
 	void obrysuj(int plansza[10][10], int x, int y);
+	void czyZatopiony(int x, int y);
 
 	//update
 	bool click(sf::RenderWindow* window);

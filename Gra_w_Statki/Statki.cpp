@@ -5,7 +5,8 @@
 #include <iostream>
 Statki::Statki(int _size, int num) : shipNumber(num), size(_size)
 {
-	this->horizontalDirection = !this->horizontalDirection;
+	this->horizontalDirectionStatic = !this->horizontalDirectionStatic;
+	this->horizontalDirection = this->horizontalDirectionStatic;
 	if (this->horizontalDirection) { 
 		this->ship.setSize(sf::Vector2f(_size * 47.5, 47.5));
 	}
@@ -20,6 +21,16 @@ Statki::Statki(int _size, int num) : shipNumber(num), size(_size)
 	this->old_y = 0;
 	this->positionChange = false;
 	this->goodPosition();
+	if (this->horizontalDirection)
+	{
+		this->offsideX = (this->size - 1) * 47.5;
+		this->offsideY = 0;
+	}
+	else
+	{
+		this->offsideX = 0;
+		this->offsideY = (this->size - 1) * 47.5;
+	}
 }
 
 Statki::~Statki(){}
@@ -37,7 +48,8 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 				this->positionChange = true;
 				if (x >= 35 || x <= -35) {
 					if (x >= 35) {
-						if (this->ship.getGlobalBounds().left < 531.5) {
+						if (this->ship.getGlobalBounds().left < 531.0 - this->offsideX) {
+							std::cout << this->ship.getGlobalBounds().left << "  ";
 							this->ship.move(47.5, 0);
 							mousePosReference.x += 47.5;
 							this->x++;
@@ -45,6 +57,7 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 					}
 					else {
 						if (this->ship.getGlobalBounds().left > 104) {
+							std::cout << this->ship.getGlobalBounds().left << "  ";
 							mousePosReference.x -= 47.5;
 							this->ship.move(-47.5, 0);
 							this->x--;
@@ -53,7 +66,7 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 				}
 				else {
 					if (y >= 35) {
-						if (this->ship.getGlobalBounds().top < 451.5) {
+						if (this->ship.getGlobalBounds().top < 451.0 - this->offsideY) {
 							mousePosReference.y += 47.5;
 							this->ship.move(0, 47.5);
 							this->y++;
@@ -79,7 +92,6 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 					}
 				}
 				this->goodPosition();
-				std::cout << this->x << " " << this->y << std::endl;
 			}
 		}
 		else {
@@ -110,7 +122,6 @@ void Statki::updateShip(sf::Vector2i &mousePos, sf::Vector2i &mousePosReference)
 
 void Statki::goodPosition()
 {
-	std::cout << this->horizontalDirection;
 	if (this->horizontalDirection) {
 		for (int i = 0; i < this->size; i++) {
 			if (this->sprawdzPole(x + i, y) == 0) {
@@ -160,4 +171,5 @@ void Statki::renderShip()
 	
 }
 
-bool Statki::horizontalDirection = false;
+bool Statki::horizontalDirectionStatic = false;
+
