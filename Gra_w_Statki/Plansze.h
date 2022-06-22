@@ -22,6 +22,7 @@ public:
 
 	sf::Texture t1, t2, t3, t4;
 
+
 	//init
 	Plansze();
 	~Plansze();
@@ -39,8 +40,5 @@ public:
 	//render
 	void renderBoard1(sf::RenderWindow* window);
 	void renderBoard2(sf::RenderWindow* window);
-
-	//inne
-	int winning();
 };
 

@@ -327,44 +327,6 @@ void Plansze::renderBoard2(sf::RenderWindow* window)
 //-------------------------------------------------------
 //Inne
 //-------------------------------------------------------
-int Plansze::winning()
-{
-    int x = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (board1[i][j] > 0)
-            {
-                x = 1;
-            }
-        }
-    }
-    if (x == 0)
-    {
-        return 2;
-    }
-    x = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (board2[i][j] > 0)
-            {
-                x = 1;
-            }
-        }
-    }
-    if (x == 0)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
 bool Plansze::sprawdz_pole(int plansza[10][10], int x, int y)
 {
     if (plansza[x][y] == 0)

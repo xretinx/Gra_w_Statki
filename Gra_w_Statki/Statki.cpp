@@ -31,7 +31,6 @@ Statki::Statki(int _size, int num) : shipNumber(num), size(_size)
 		this->offsideX = 0;
 		this->offsideY = (this->size - 1) * 47.5;
 	}
-	//std::cout << this->horizontalDirection;
 }
 
 Statki::~Statki(){}
@@ -173,3 +172,4 @@ void Statki::renderShip()
 }
 
 bool Statki::horizontalDirectionStatic = false;
+
