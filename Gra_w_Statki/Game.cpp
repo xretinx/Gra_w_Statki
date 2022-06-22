@@ -74,9 +74,10 @@ void Game::initText()
 		buttonsText[i].setFillColor(sf::Color(255, 255, 255, 200));
 	}
 
+	end.setFont(font);
 	end.setCharacterSize(100);
-	end.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - end.getGlobalBounds().width) / 2)), 200.f));
-	end.setFillColor(sf::Color(255, 255, 255, 200));
+	end.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - end.getGlobalBounds().width) / 2)), 100.f));
+	end.setFillColor(sf::Color(255, 255, 255, 255));
 }
 
 void Game::initMenu()
@@ -192,6 +193,7 @@ void Game::pollEvents()
 					if (buttons[0].getFillColor() == sf::Color(20, 20, 20, 255))
 					{
 						this->gameReset();
+						last = 0;
 					}
 					else if (buttons[1].getFillColor() == sf::Color(20, 20, 20, 255))
 					{
