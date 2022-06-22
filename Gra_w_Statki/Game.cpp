@@ -236,29 +236,6 @@ bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 }
 
 
-void Game::updateMousePosition()
-{
-	//Aktualizuje pozycje myszy wzgl璠em okienka
-	this->mousePos = sf::Mouse::getPosition(*this->window);
-}
-//do usuniecia
-void Game::updateShipPosition()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->isShipSet == true) {
-		if (this->isEnterPressed == false) {
-			this->initShip();
-			this->isEnterPressed = !this->isEnterPressed;
-		}
-	}
-	else{
-		for (auto& obj : ships) {
-			obj.updateShip(this->mousePos, this->mousePosReference);
-		}
-		this->isEnterPressed = false;
-	}
-	
-}
-
 void Game::bot()
 {
 	srand(time(0));
