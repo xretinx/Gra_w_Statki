@@ -137,10 +137,6 @@ bool Game::running()
 
 void Game::pauseMenu()
 {
-	if (last == 1)
-	{
-		window->draw(end);
-	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		if (prevKey != sf::Keyboard::Escape && mainMenu != 1)
@@ -410,7 +406,11 @@ void Game::render()
 		}
 	}
 	this->renderScore();
-	
+	std::cout << last << std::endl;
+	if (last == 1)
+	{
+		window->draw(end);
+	}
 	//pokazanie na ekran
 	this->window->display();
 }
