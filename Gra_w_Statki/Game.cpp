@@ -96,6 +96,16 @@ void Game::initMenu()
 	buttons[0].setFillColor(sf::Color(20, 20, 20, 255));
 }
 
+void Game::initScore() 
+{
+	score.setFont(font);
+	score.setString(std::to_string(wynik));
+	score.setFillColor(sf::Color::White);
+	score.setStyle(sf::Text::Bold);
+	score.setCharacterSize(200);
+	score.setPosition(sf::Vector2f(700.f, 500.f));
+}
+
 Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 {
 	boards.set(Game::board1, Game::board2);
@@ -108,6 +118,7 @@ Game::Game() : shipSizes{ 1,1,1,1,2,2,2,3,3,4 }
 	this->initText();
 	this->initFont();
 	this->initMenu();
+	this->initScore();
 }
 
 Game::~Game()
@@ -236,6 +247,30 @@ bool Game::isInside(sf::Vector2i mouse, sf::FloatRect rect)
 }
 
 
+void Game::updateScore()
+{
+	polaspudlowane = 0;
+	polatrafione = 0;
+	for (int i{}; i < 10; i++) {
+		for (int j{}; j < 10; j++) {
+			if (board2[i][j] == -2) {
+				polaspudlowane++;
+			}
+			if (board2[i][j] <= -3) {
+				polatrafione++;
+			}
+		}
+	}
+	wynik = (polatrafione * 1000) - (polaspudlowane * 100);
+	score.setString(std::to_string(wynik));
+	wynik = 0;
+	std::cout << polaspudlowane << "   " << polatrafione << std::endl;
+	if (polatrafione == 20) {
+		window->close();
+	}
+	score.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - score.getGlobalBounds().width) / 2)), 500.f));
+}
+
 void Game::bot()
 {
 	srand(time(0));
@@ -303,6 +338,8 @@ void Game::update()
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
+	this->updateShipPosition();
+	this->updateScore();
 	//std::cout << round << " " << stop << " " << shipcount << std::endl;
 	if (stop == 0 && round == 0)
 	{
@@ -330,6 +367,12 @@ void Game::renderBackground()
 	
 }
 
+void Game::renderScore()
+{
+	this->window->draw(this->score);
+
+}
+
 void Game::render()
 {
 	//czyszczenie okna
@@ -353,7 +396,7 @@ void Game::render()
 			window->draw(buttonsText[i]);
 		}
 	}
-
+	this->renderScore();
 	
 	//pokazanie na ekran
 	this->window->display();
