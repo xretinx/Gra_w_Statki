@@ -73,6 +73,10 @@ void Game::initText()
 		buttonsText[i].setCharacterSize(40);
 		buttonsText[i].setFillColor(sf::Color(255, 255, 255, 200));
 	}
+
+	end.setCharacterSize(100);
+	end.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - end.getGlobalBounds().width) / 2)), 200.f));
+	end.setFillColor(sf::Color(255, 255, 255, 200));
 }
 
 void Game::initMenu()
@@ -133,6 +137,10 @@ bool Game::running()
 
 void Game::pauseMenu()
 {
+	if (last == 1)
+	{
+		window->draw(end);
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		if (prevKey != sf::Keyboard::Escape && mainMenu != 1)
@@ -263,11 +271,7 @@ void Game::updateScore()
 	}
 	wynik = (polatrafione * 1000) - (polaspudlowane * 100);
 	score.setString(std::to_string(wynik));
-	wynik = 0;
 	std::cout << polaspudlowane << "   " << polatrafione << std::endl;
-	if (polatrafione == 20) {
-		window->close();
-	}
 	score.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - score.getGlobalBounds().width) / 2)), 500.f));
 }
 
@@ -294,6 +298,7 @@ void Game::bot()
 	else if (board1[x_target][y_target] > 0)
 	{
 		board1[x_target][y_target] = -3;
+		polatrafione++;
 	}
 }
 
@@ -323,23 +328,17 @@ void Game::updateShipPosition()
 
 void Game::update()
 {
-	if (round != 0)
-	{
-		if (winning() == 1)
-		{
-			std::cout << "You won" << std::endl;
-		}
-		else if (winning() == 2)
-		{
-			std::cout << "Opponent won" << std::endl;
-		}
-	}
 	
 	this->pauseMenu();
 	this->pollEvents();
 	this->updateMousePosition();
-	this->updateScore();
-	//std::cout << round << " " << stop << " " << shipcount << std::endl;
+
+	if (stop == 0)
+	{
+		wynik = 0;
+		this->updateScore();
+	}
+
 	if (stop == 0 && round == 0)
 	{
 		this->updateShipPosition();
@@ -347,6 +346,21 @@ void Game::update()
 		{
 			round = 1;
 		}
+	}
+
+	if (polatrafione == 20)
+	{
+		gameReset();
+		end.setString("You Won");
+		mainMenu = 1;
+		stop = 1;
+	}
+	else if (polatrafione2 == 20)
+	{
+		gameReset();
+		end.setString("You Lost");
+		mainMenu = 1;
+		stop = 1;
 	}
 }
 
@@ -403,6 +417,10 @@ void Game::render()
 
 void Game::gameReset()
 {
+	if (polatrafione == 20 || polatrafione2 == 20)
+	{
+		last = 1;
+	}
 	shipNumber = -1;
 	round = 0;
 	shipcount = 1;
@@ -415,42 +433,4 @@ void Game::gameReset()
 	this->initShip();
 
 	this->initText();
-}
-
-int Game::winning()
-{
-	int x = 0;
-
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			if (board1[i][j] > 0)
-			{
-				x = 1;
-			}
-		}
-	}
-	if (x == 0)
-	{
-		return 2;
-	}
-	x = 0;
-
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			if (board2[i][j] > 0)
-			{
-				x = 1;
-			}
-		}
-	}
-	if (x == 0)
-	{
-		return 1;
-	}
-
-	return 0;
 }

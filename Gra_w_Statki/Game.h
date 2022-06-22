@@ -40,6 +40,7 @@ public:
 	int wynik{};
 	int polaspudlowane{};
 	int polatrafione{};
+	int polatrafione2{};
 	void bot();
 
 	//do menu i nwm co z tym zrobic
@@ -51,6 +52,7 @@ public:
 
 	sf::Font font;
 	sf::Text score;
+	sf::Text end;
 	sf::Text button1text;
 	sf::Text button2text;
 	sf::Text button3text;
@@ -61,6 +63,7 @@ public:
 	bool stop = 1;
 	int temp = 0;
 	int shipcount = 0;
+	int last = 0;
 
 	int prevKey = sf::Keyboard::Escape;
 
