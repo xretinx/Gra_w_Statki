@@ -301,16 +301,6 @@ void Game::updateScore()
 	score.setPosition(sf::Vector2f((float)((int)(background3.getGlobalBounds().left + (background3.getGlobalBounds().width - score.getGlobalBounds().width) / 2)), 500.f));
 }
 
-
-void Game::wynikinc()
-{
-	wynik = wynik + 1000;
-}
-void Game::wynikdec()
-{
-	wynik = wynik - 100;
-}
-
 void Game::bot()
 {
 	srand(time(0));

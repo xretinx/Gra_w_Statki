@@ -186,13 +186,11 @@ bool Plansze::click(sf::RenderWindow* window)
         if (board2[x][y] == 0 || board2[x][y] == -1)
         {
             board2[x][y] = -2;
-            //game.wynikdec();
             return true;
         }
         else if (board2[x][y] > 0 && board2[x][y] < 5)
         {
             board2[x][y] = -3;
-            //game.wynikinc();
             return true;
         }
     }

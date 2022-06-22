@@ -102,8 +102,6 @@ public:
 	void updateMousePosition();
 	void updateShipPosition();
 	void updateScore();
-	void wynikinc();
-	void wynikdec();
 
 	void update();
 	
