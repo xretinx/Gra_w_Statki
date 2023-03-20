@@ -3,6 +3,7 @@
 #include"Plansze.h"
 int main()
 {
+    
     Game game;
 
     while (game.running()) {
